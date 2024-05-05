@@ -2,7 +2,7 @@
 
     include 'sqlConnect.php';
 
-    $sql = 'SELECT * FROM oasu.faculties';
+    $sql = "SELECT * FROM oasu.faculties";
     $result = mysqli_query($GLOBALS['link'], $sql);
     $json = [];
     foreach ($result as $row) {
