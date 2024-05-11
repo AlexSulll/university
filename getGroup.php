@@ -3,9 +3,11 @@
     global $pdo;
     include 'dataBase.php';
 
-    $sql = file_get_contents("sqlRequests/sqlGroup.txt").$_GET["department_id"];
+    $idDepartment = $_GET["department_id"];
+    $sql = file_get_contents("sqlRequests/sqlGetGroup.txt");
 
-    $getGroups = $pdo->query($sql);
+    $getGroups = $pdo->prepare($sql);
+    $getGroups->execute([$idDepartment]);
     $groups = $getGroups->fetchAll(PDO::FETCH_ASSOC);
 
     echo json_encode($groups, JSON_UNESCAPED_UNICODE);

@@ -1,10 +1,15 @@
 <?php
-include 'sqlConnect.php';
-if (isset($_POST['student_id'])) {
-    $user_id = mysqli_real_escape_string($GLOBALS['link'], $_POST['student_id']);
-    $sql = "DELETE FROM oasu.students WHERE student_id=".$user_id;
-    mysqli_query($GLOBALS['link'], $sql);
-    mysqli_close($GLOBALS['link']);
-    echo "<html lang='ru'><head><meta http-equiv='refresh' content='0;URL=".$_SERVER['HTTP_REFERER']."'></head></html>";
-}
-?>
+
+    include 'dataBase.php';
+
+    if (isset($_GET['student_id'])) {
+        deleteStudent($_GET['student_id']);
+    }
+
+    function deleteStudent($idStudent)
+    {
+        global $pdo;
+        $sql = file_get_contents('sqlRequests/sqlDeleteStudent.txt');
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$idStudent]);
+    }
