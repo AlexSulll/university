@@ -1,33 +1,36 @@
 <?php
 
-    include "sqlConnect.php";
+    global $pdo;
+    include "dataBase.php";
 
-    $sqlFaculties = "SELECT * FROM oasu.faculties";
-    $resultFaculties = mysqli_query($GLOBALS['link'], $sqlFaculties);
-    $faculties = [];
-    while ($row = mysqli_fetch_assoc($resultFaculties)) {
-        $faculties[$row['faculty_id']] = $row;
-    }
+    $sqlFaculties = file_get_contents('sqlRequests/sqlFaculty.txt');
+    $resultFaculties = $pdo->query($sqlFaculties);
+    $faculties = $resultFaculties->fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($faculties as $faculty) {
-        $sqlDepartment = "SELECT * FROM oasu.department WHERE `id_of_faculties`=".$faculty['faculty_id'];
-        $resultDepartment = mysqli_query($GLOBALS['link'], $sqlDepartment);
-        while ($row = mysqli_fetch_assoc($resultDepartment)) {
-            $faculties[$faculty['faculty_id']]['department'][$row['department_id']] = $row;
+        $sqlDepartment = file_get_contents("sqlRequests/sqlDepartment.txt").$faculty['faculty_id'];
+        $resultDepartment = $pdo->query($sqlDepartment);
+        $department = $resultDepartment->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($department as $newDepartment) {
+            $faculties[$faculty['faculty_id'] - 1]['department'][$newDepartment['department_id']] = $newDepartment;
         }
-        foreach ($faculties[$faculty['faculty_id']]['department'] as &$departmentNew) {
-            $sqlGroup = "SELECT * FROM oasu.group WHERE `id_of_department`=".$departmentNew['department_id'];
-            $resultGroup = mysqli_query($GLOBALS['link'], $sqlGroup);
-            while ($row = mysqli_fetch_assoc($resultGroup)) {
-                $departmentNew['groups'][$row['group_id']] = $row;
+        foreach ($faculties[$faculty['faculty_id'] - 1]['department'] as &$departmentNew) {
+            $sqlGroup = file_get_contents("sqlRequests/sqlGroup.txt").$departmentNew['department_id'];
+            $resultGroup = $pdo->query($sqlGroup);
+            $groups = $resultGroup->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($groups as $newGroups) {
+                $departmentNew['groups'][$newGroups['group_id']] = $newGroups;
             }
             foreach ($departmentNew['groups'] as &$groupNew) {
-                $sqlStudents = "SELECT * FROM oasu.students WHERE `id_of_group`=".$groupNew['group_id'];
-                $resultStudent = mysqli_query($GLOBALS['link'], $sqlStudents);
-                while ($row = mysqli_fetch_assoc($resultStudent)) {
-                    $groupNew['students'][$row['student_id']] = $row;
+                $sqlStudents = file_get_contents('sqlRequests/sqlStudent.txt').$groupNew['group_id'];
+                $resultStudent = $pdo->query($sqlStudents);
+                $students = $resultStudent->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($students as $student) {
+                    $groupNew['students'][$student['student_id']] = $student;
                 }
+                unset($groupNew);
             }
+            unset($departmentNew);
         }
     }
 
