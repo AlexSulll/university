@@ -1,0 +1,1 @@
+INSERT INTO oasu.students (student_id, name_of_student, id_of_group) VALUES (:studentId, :nameStudent, :groupStudent)

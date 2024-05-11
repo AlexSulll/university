@@ -9,7 +9,7 @@
     function deleteGroup($idGroup)
     {
         global $pdo;
-        $sql = file_get_contents('sqlRequests/sqlGetStudent.txt');
+        $sql = file_get_contents('sqlRequests/sqlGetStudents.txt');
         $getStudents = $pdo->prepare($sql);
         $getStudents->execute([$idGroup]);
         $students = $getStudents->fetchAll(PDO::FETCH_ASSOC);
