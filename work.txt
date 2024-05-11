@@ -3,3 +3,8 @@
 05.05.2024
 Сделал вывод в виде JSON(1 час)
 Сделал вывод дерева в файле getTree(6 часов)
+11.05.2024
+Исправил подключение к БД через pdo(0,5 часа)
+Переписал файлы getFaculty, getDepartment, getGroup, getStudents на PDO (1,5 часа)
+Сделал файлы sqlFaculty.txt, sqlDepartment.txt, sqlGroup.txt, sqlStudent.txt с sql запросами (10 мин)
+Переписал файлы getFaculty, getDepartment, getGroup, getStudents с использованием file_get_contents (10 мин)

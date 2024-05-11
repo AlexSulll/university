@@ -1,12 +1,11 @@
 <?php
 
-    include 'sqlConnect.php';
+    global $pdo;
+    include 'dataBase.php';
 
-    $sql = "SELECT * FROM oasu.students WHERE `id_of_group`=".$_GET['group_id'];
-    $result = mysqli_query($GLOBALS['link'], $sql);
-    $json = [];
-    foreach ($result as $row) {
-        $json[] = ['student_id' => $row['student_id'], 'name_of_student' => $row['name_of_student']];
-    }
+    $sql = file_get_contents('sqlRequests/sqlStudent.txt').$_GET['group_id'];
 
-    echo json_encode($json, JSON_UNESCAPED_UNICODE);
+    $getStudents = $pdo->query($sql);
+    $students = $getStudents->fetchAll(PDO::FETCH_ASSOC);
+
+    echo json_encode($students, JSON_UNESCAPED_UNICODE);

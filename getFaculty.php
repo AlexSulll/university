@@ -1,12 +1,11 @@
 <?php
 
-    include 'sqlConnect.php';
+    global $pdo;
+    include 'dataBase.php';
 
-    $sql = "SELECT * FROM oasu.faculties";
-    $result = mysqli_query($GLOBALS['link'], $sql);
-    $json = [];
-    foreach ($result as $row) {
-        $json[] = ['faculty_id' => $row['faculty_id'], 'name_faculty' => $row['name_faculty']];
-    }
-    echo json_encode($json,JSON_UNESCAPED_UNICODE);
+    $sql = file_get_contents('sqlRequests/sqlFaculty.txt');
 
+    $getFaculties = $pdo->query($sql);
+    $faculties = $getFaculties->fetchAll(PDO::FETCH_ASSOC);
+
+    echo json_encode($faculties,JSON_UNESCAPED_UNICODE);
