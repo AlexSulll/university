@@ -8,3 +8,4 @@
 Переписал файлы getFaculty, getDepartment, getGroup, getStudents на PDO (1,5 часа)
 Сделал файлы sqlFaculty.txt, sqlDepartment.txt, sqlGroup.txt, sqlStudent.txt с sql запросами (10 мин)
 Переписал файлы getFaculty, getDepartment, getGroup, getStudents с использованием file_get_contents (10 мин)
+Переписал файл getTree.php с использованием PDO изменил while на foreach, изменил sql запросы через file_get_content, добавил unset
