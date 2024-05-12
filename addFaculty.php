@@ -3,19 +3,17 @@
     global $pdo;
     include 'dataBase.php';
 
-    if (isset($_POST['nameStudent']) && isset($_POST['groupId'])) {
-        $studentId = null;
-        $nameStudent = $_POST['nameStudent'];
-        $groupId = $_POST['groupId'];
+    if (isset($_POST['nameFaculty'])) {
+        $facultyId = null;
+        $nameFaculty = $_POST['nameFaculty'];
 
-        $sql = file_get_contents('sqlRequests/sqlAddStudent.txt');
+        $sql = file_get_contents('sqlRequests/sqlAddFaculty.txt');
         $addStudent = $pdo->prepare($sql);
 
         try {
             $addStudent->execute([
-                'studentId' => $studentId,
-                'nameStudent' => $nameStudent,
-                'groupStudent' => $groupId
+                'facultyId' => $facultyId,
+                'nameFaculty' => $nameFaculty
             ]);
         } catch (PDOException $exception) {
             echo "Ошибка при добавлении нового студента: {$exception->getMessage()}";

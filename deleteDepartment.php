@@ -2,8 +2,8 @@
 
     include 'deleteGroup.php';
 
-    if (isset($_GET['department_id'])) {
-        deleteDepartment($_GET['department_id']);
+    if (isset($_GET['departmentId'])) {
+        deleteDepartment($_GET['departmentId']);
     }
 
     function deleteDepartment($idDepartment)

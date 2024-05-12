@@ -1,0 +1,1 @@
+INSERT INTO oasu.group (group_id, name_of_group, id_of_department) VALUES (:groupId, :nameGroup, :departmentGroup)

@@ -1,0 +1,1 @@
+INSERT INTO oasu.department (department_id, name_of_department, id_of_faculties) VALUES (:departmentId, :nameDepartment, :facultyId)

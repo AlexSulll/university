@@ -2,8 +2,8 @@
 
     include 'deleteStudent.php';
 
-    if (isset($_GET['group_id'])) {
-        deleteGroup($_GET['group_id']);
+    if (isset($_GET['groupId'])) {
+        deleteGroup($_GET['groupId']);
     }
 
     function deleteGroup($idGroup)

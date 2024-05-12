@@ -2,8 +2,8 @@
 
     include 'dataBase.php';
 
-    if (isset($_GET['student_id'])) {
-        deleteStudent($_GET['student_id']);
+    if (isset($_GET['studentId'])) {
+        deleteStudent($_GET['studentId']);
     }
 
     function deleteStudent($idStudent)

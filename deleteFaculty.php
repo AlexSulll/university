@@ -2,8 +2,8 @@
 
     include 'deleteDepartment.php';
 
-    if (isset($_GET['faculty_id'])) {
-        deleteFaculty($_GET['faculty_id']);
+    if (isset($_GET['facultyId'])) {
+        deleteFaculty($_GET['facultyId']);
     }
 
     function deleteFaculty($idFaculty)
