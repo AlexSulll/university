@@ -1,14 +1,14 @@
 <?php
 
     global $pdo;
-    include "../thesaurus/dataBase.php";
+    include __DIR__."/../thesaurus/dataBase.php";
 
     if (isset($_POST["studentId"])) {
         $studentId = $_POST["studentId"];
         $newNameStudent = $_POST["newNameStudent"];
         $newGroupStudentId = $_POST["newGroupStudentId"];
 
-        $sql = file_get_contents("../sql/students/sqlEditStudent.sql");
+        $sql = file_get_contents(__DIR__."/../sql/students/sqlEditStudent.sql");
         $editStudent = $pdo->prepare($sql);
         $editStudent->execute([
             "newNameStudent" => $newNameStudent,

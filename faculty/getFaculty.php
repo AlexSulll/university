@@ -3,10 +3,10 @@
     header("Content-Type: application/json");
 
     global $pdo;
-    include "../thesaurus/dataBase.php";
+    include __DIR__."/../thesaurus/dataBase.php";
 
     $facultyId = $_GET["facultyId"];
-    $sql = file_get_contents("../sql/faculty/sqlGetFacultyId.sql");
+    $sql = file_get_contents(__DIR__."/../sql/faculty/sqlGetFacultyId.sql");
 
     $getFaculty = $pdo->prepare($sql);
     $getFaculty->execute([$facultyId]);

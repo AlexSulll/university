@@ -3,13 +3,13 @@
     header("Content-Type: application/json");
 
     global $pdo;
-    include "../thesaurus/dataBase.php";
+    include __DIR__."/../thesaurus/dataBase.php";
 
-    $idDepartment = $_GET["departmentId"];
-    $sql = file_get_contents("../sql/department/sqlGetDepartmentId.sql");
+    $departmentId = $_GET["departmentId"];
+    $sql = file_get_contents(__DIR__."/../sql/department/sqlGetDepartmentId.sql");
 
     $getDepartment = $pdo->prepare($sql);
-    $getDepartment->execute([$idDepartment]);
+    $getDepartment->execute([$departmentId]);
     $department = $getDepartment->fetchAll(PDO::FETCH_ASSOC);
 
     echo json_encode($department, JSON_UNESCAPED_UNICODE);

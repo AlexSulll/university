@@ -1,1 +1,1 @@
-INSERT INTO oasu.faculties (name_faculty) VALUES (:nameFaculty)
+INSERT INTO oasu.faculties (name_faculty) VALUES (:facultyName)

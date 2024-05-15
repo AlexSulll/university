@@ -3,9 +3,9 @@
     header("Content-Type: application/json");
 
     global $pdo;
-    include "../thesaurus/dataBase.php";
+    include __DIR__."/../thesaurus/dataBase.php";
 
-    $sql = file_get_contents("../sql/faculty/sqlGetFaculty.sql");
+    $sql = file_get_contents(__DIR__."/../sql/faculty/sqlGetFaculty.sql");
 
     $getFaculties = $pdo->query($sql);
     $faculties = $getFaculties->fetchAll(PDO::FETCH_ASSOC);

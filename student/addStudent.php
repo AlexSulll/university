@@ -1,14 +1,14 @@
 <?php
 
     global $pdo;
-    include "../thesaurus/dataBase.php";
+    include __DIR__."/../thesaurus/dataBase.php";
 
     if (isset($_POST["nameStudent"]) && isset($_POST["groupId"])) {
         if (preg_match("/^[А-яЁё -]*$/u", $_POST["nameStudent"]) && preg_match("/^[0-9]*$/", $_POST["groupId"])) {
             $nameStudent = $_POST["nameStudent"];
             $groupId = $_POST["groupId"];
 
-            $sql = file_get_contents("../sql/students/sqlAddStudent.sql");
+            $sql = file_get_contents(__DIR__."/../sql/students/sqlAddStudent.sql");
             $addStudent = $pdo->prepare($sql);
 
             try {
