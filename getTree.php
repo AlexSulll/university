@@ -3,7 +3,7 @@
     header('Content-Type: application/json');
 
     global $pdo;
-    include "dataBase.php";
+//    include "dataBase.php";
 
     $sqlFaculties = file_get_contents('sql/sqlGetFaculty.sql');
     $resultFaculties = $pdo->query($sqlFaculties);
