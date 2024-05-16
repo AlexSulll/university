@@ -1,9 +1,18 @@
 <?php
 
+    global $pdo;
     require_once __DIR__."/../student/deleteStudent.php";
 
     if (isset($_GET["groupId"])) {
-        deleteGroup($_GET["groupId"]);
+        $groupId = $_GET["groupId"];
+        $sql = file_get_contents(__DIR__."/../sql/group/sqlGetGroupId.sql");
+        $getGroup = $pdo->prepare($sql);
+        $getGroup->execute([$groupId]);
+        if ($getGroup->fetch()) {
+            deleteGroup($groupId);
+        } else {
+            echo json_encode("Такой группы не существует",JSON_UNESCAPED_UNICODE);
+        }
     }
 
     function deleteGroup(int $groupId): void

@@ -1,9 +1,18 @@
 <?php
 
     require_once __DIR__."/../group/deleteGroup.php";
+    global $pdo;
 
     if (isset($_GET["departmentId"])) {
-        deleteDepartment($_GET["departmentId"]);
+        $departmentId = $_GET["departmentId"];
+        $sql = file_get_contents(__DIR__."/../sql/department/sqlGetDepartmentId.sql");
+        $getDepartment = $pdo->prepare($sql);
+        $getDepartment->execute([$departmentId]);
+        if ($getDepartment->fetch()){
+            deleteDepartment($departmentId);
+        } else {
+            echo json_encode("Такой кафедры не существует", JSON_UNESCAPED_UNICODE);
+        }
     }
 
     function deleteDepartment(int $departmentId): void

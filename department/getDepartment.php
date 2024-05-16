@@ -3,13 +3,29 @@
     header("Content-Type: application/json");
 
     global $pdo;
-    include __DIR__."/../thesaurus/dataBase.php";
+    require_once __DIR__."/../thesaurus/dataBase.php";
 
-    $departmentId = $_GET["departmentId"];
-    $sql = file_get_contents(__DIR__."/../sql/department/sqlGetDepartmentId.sql");
+    if (isset($_GET["departmentId"])) {
+        $department = getDepartment($_GET["departmentId"]);
+        if ($department) {
+            echo $department;
+        } else {
+            echo json_encode("Такой кафедры не существует", JSON_UNESCAPED_UNICODE);
+        }
+    }
 
-    $getDepartment = $pdo->prepare($sql);
-    $getDepartment->execute([$departmentId]);
-    $department = $getDepartment->fetchAll(PDO::FETCH_ASSOC);
+    function getDepartment(int $departmentId): ?string
+    {
+        global $pdo;
+        $sql = file_get_contents(__DIR__."/../sql/department/sqlGetDepartmentId.sql");
 
-    echo json_encode($department, JSON_UNESCAPED_UNICODE);
+        $getDepartment = $pdo->prepare($sql);
+        $getDepartment->execute([$departmentId]);
+        $department = $getDepartment->fetchAll(PDO::FETCH_ASSOC);
+
+        if ($department) {
+            return json_encode($department, JSON_UNESCAPED_UNICODE);
+        } else {
+            return null;
+        }
+    }

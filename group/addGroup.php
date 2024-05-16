@@ -1,27 +1,25 @@
 <?php
 
     global $pdo;
-    include __DIR__."/../thesaurus/dataBase.php";
+    require_once __DIR__."/../thesaurus/dataBase.php";
+    require_once __DIR__."/../department/getDepartment.php";
 
-    if (isset($_POST["nameGroup"]) && isset($_POST["departmentId"])) {
-        if (preg_match("/^[А-яЁё0-9 -]*$/u", $_POST["nameGroup"]) && preg_match("/^[0-9]*$/", $_POST["departmentId"])) {
-            $nameGroup = $_POST["nameGroup"];
-            $departmentId = $_POST["departmentId"];
-
-            $sql = file_get_contents(__DIR__."/../sql/group/sqlAddGroup.sql");
-            $addGroup = $pdo->prepare($sql);
-
-            try {
+    if (isset($_POST["groupName"]) && isset($_POST["departmentId"])) {
+        $groupName = $_POST["groupName"];
+        $departmentId = $_POST["departmentId"];
+        if (preg_match("/^[А-яЁё0-9 -]*$/u", $groupName) && preg_match("/^[0-9]*$/", $departmentId)) {
+            if (getDepartment($departmentId)) {
+                $sql = file_get_contents(__DIR__."/../sql/group/sqlAddGroup.sql");
+                $addGroup = $pdo->prepare($sql);
                 $addGroup->execute([
-                    "nameGroup" => $nameGroup,
-                    "departmentGroup" => $departmentId
+                    "groupName" => $groupName,
+                    "departmentId" => $departmentId
                 ]);
-            } catch (PDOException $exception) {
-                throw new exception("Ошибка при добавлении нового факультета");
+                echo json_encode("Успешное добавление группы", JSON_UNESCAPED_UNICODE);
+            } else {
+                echo json_encode("Такая кафедра не существует", JSON_UNESCAPED_UNICODE);
             }
         } else {
-            throw new exception("Ошибка при проверке данных");
+            echo json_encode("Ошибка при проверке данных", JSON_UNESCAPED_UNICODE);
         }
-    } else {
-        throw new exception("Необходимо заполнить все поля");
     }

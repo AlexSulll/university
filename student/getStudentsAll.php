@@ -3,7 +3,7 @@
     header("Content-Type: application/json");
 
     global $pdo;
-    include __DIR__."/../thesaurus/dataBase.php";
+    require_once __DIR__."/../thesaurus/dataBase.php";
 
     $sql = file_get_contents(__DIR__."/../sql/students/sqlGetStudentsAll.sql");
 

@@ -1,27 +1,25 @@
 <?php
 
     global $pdo;
-    include __DIR__."/../thesaurus/dataBase.php";
+    require_once __DIR__."/../thesaurus/dataBase.php";
+    require_once __DIR__."/../group/getGroup.php";
 
-    if (isset($_POST["nameStudent"]) && isset($_POST["groupId"])) {
-        if (preg_match("/^[А-яЁё -]*$/u", $_POST["nameStudent"]) && preg_match("/^[0-9]*$/", $_POST["groupId"])) {
-            $nameStudent = $_POST["nameStudent"];
-            $groupId = $_POST["groupId"];
-
-            $sql = file_get_contents(__DIR__."/../sql/students/sqlAddStudent.sql");
-            $addStudent = $pdo->prepare($sql);
-
-            try {
+    if (isset($_POST["studentName"]) && isset($_POST["groupId"])) {
+        $groupId = $_POST["groupId"];
+        $studentName = $_POST["studentName"];
+        if (preg_match("/^[А-яЁё -]*$/u", $studentName) && preg_match("/^[0-9]*$/", $groupId)) {
+            if (getGroup($groupId)) {
+                $sql = file_get_contents(__DIR__."/../sql/students/sqlAddStudent.sql");
+                $addStudent = $pdo->prepare($sql);
                 $addStudent->execute([
-                    "nameStudent" => $nameStudent,
-                    "groupStudent" => $groupId
+                    "studentName" => $studentName,
+                    "groupId" => $groupId
                 ]);
-            } catch (PDOException $exception) {
-                throw new exception("Ошибка при добавлении нового студента");
+                echo json_encode("Успешное добавление студента", JSON_UNESCAPED_UNICODE);
+            } else {
+                echo json_encode("Такой группы не существует", JSON_UNESCAPED_UNICODE);
             }
         } else {
-            throw new exception("Ошибка при проверке данных");
+            echo json_encode("Ошибка при проверке данных", JSON_UNESCAPED_UNICODE);
         }
-    } else {
-        throw new exception("Необходимо заполнить все поля");
     }
