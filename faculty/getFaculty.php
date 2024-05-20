@@ -10,14 +10,14 @@
         if ($faculty) {
             echo $faculty;
         } else {
-            echo json_encode("Такого факультета не существует", JSON_UNESCAPED_UNICODE);
+            echo json_encode("Такого факультета не существует", JSON_THROW_ON_ERROR);
         }
     }
 
     function getFaculty(int $facultyId): ?string
     {
         global $pdo;
-        $sql = file_get_contents(__DIR__."/../sql/faculty/sqlGetFacultyId.sql");
+        $sql = file_get_contents(__DIR__ . "/../sql/faculty/getFacultyId.sql");
 
         $getFaculty = $pdo->prepare($sql);
         $getFaculty->execute([$facultyId]);

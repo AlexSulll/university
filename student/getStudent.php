@@ -10,14 +10,14 @@
         if ($student) {
             echo $student;
         } else {
-            echo json_encode("Такого студента не существует", JSON_UNESCAPED_UNICODE);
+            echo json_encode("Такого студента не существует", JSON_THROW_ON_ERROR);
         }
     }
 
     function getStudent(int $studentId): ?string
     {
         global $pdo;
-        $sql = file_get_contents(__DIR__."/../sql/students/sqlGetStudentId.sql");
+        $sql = file_get_contents(__DIR__ . "/../sql/students/getStudentId.sql");
 
         $getStudent = $pdo->prepare($sql);
         $getStudent->execute([$studentId]);

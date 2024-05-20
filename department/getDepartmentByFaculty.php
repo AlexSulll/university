@@ -7,7 +7,7 @@
 
     if (isset($_GET["facultyId"])) {
         $facultyId = $_GET["facultyId"];
-        $sql = file_get_contents(__DIR__."/../sql/department/sqlGetDepartment.sql");
+        $sql = file_get_contents(__DIR__ . "/../sql/department/getDepartment.sql");
 
         $getDepartments = $pdo->prepare($sql);
         $getDepartments->execute([$facultyId]);
@@ -16,6 +16,6 @@
         if ($departments) {
             echo json_encode($departments, JSON_UNESCAPED_UNICODE);
         } else {
-            echo json_encode("Такого кафедры не существует", JSON_UNESCAPED_UNICODE);
+            echo json_encode("Такого кафедры не существует", JSON_THROW_ON_ERROR);
         }
     }

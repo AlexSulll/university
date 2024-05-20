@@ -7,7 +7,7 @@
 
     if (isset($_GET["departmentId"])) {
         $departmentId = $_GET["departmentId"];
-        $sql = file_get_contents(__DIR__."/../sql/group/sqlGetGroup.sql");
+        $sql = file_get_contents(__DIR__ . "/../sql/group/getGroup.sql");
 
         $getGroups = $pdo->prepare($sql);
         $getGroups->execute([$departmentId]);
@@ -16,6 +16,6 @@
         if ($groups) {
             echo json_encode($groups, JSON_UNESCAPED_UNICODE);
         } else {
-            echo json_encode("Такой группы не существует", JSON_UNESCAPED_UNICODE);
+            echo json_encode("Такой группы не существует", JSON_THROW_ON_ERROR);
         }
     }

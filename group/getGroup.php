@@ -10,14 +10,14 @@
         if ($group) {
             echo $group;
         } else {
-            echo json_encode("Такой группы не существует", JSON_UNESCAPED_UNICODE);
+            echo json_encode("Такой группы не существует", JSON_THROW_ON_ERROR);
         }
     }
 
     function getGroup(int $groupId): ?string
     {
         global $pdo;
-        $sql = file_get_contents(__DIR__."/../sql/group/sqlGetGroupId.sql");
+        $sql = file_get_contents(__DIR__ . "/../sql/group/getGroupId.sql");
 
         $getGroup = $pdo->prepare($sql);
         $getGroup->execute([$groupId]);
