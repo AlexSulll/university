@@ -19,43 +19,42 @@
         addToTree($tree, $item, $keys, $names, $subarray);
     }
 
-    function addToTree(array &$tree,array $item,array $keys,array $names,array $subarray): void
-    {
+    function addToTree(array &$tree,array $item,array $keys,array $names,array $subarray): void {
         $facultyId = $item[$keys[0]];
         $departmentId = $item[$keys[1]];
         $groupId = $item[$keys[2]];
         $studentId = $item[$keys[3]];
 
         if (!isset($tree[$facultyId])) {
-            $tree[$facultyId] = array(
-                $keys[0] => $facultyId,
-                $names[0] => $item[$names[0]],
-                $subarray[0] => array()
-            );
+            $tree[$facultyId] = newBranch($item, $keys, $names, $subarray, 0, $facultyId);
         }
 
         if (!isset($tree[$facultyId][$subarray[0]][$departmentId])) {
-            $tree[$facultyId][$subarray[0]][$departmentId] = array(
-                $keys[1] => $departmentId,
-                $names[1] => $item[$names[1]],
-                $subarray[1] => array()
-            );
+            $tree[$facultyId][$subarray[0]][$departmentId] = newBranch($item, $keys, $names, $subarray, 1, $departmentId);
         }
 
         if (!isset($tree[$facultyId][$subarray[0]][$departmentId][$subarray[1]][$groupId])) {
-            $tree[$facultyId][$subarray[0]][$departmentId][$subarray[1]][$groupId] = array(
-                $keys[2] => $groupId,
-                $names[2] => $item[$names[2]],
-                $subarray[2] => array()
-            );
+            $tree[$facultyId][$subarray[0]][$departmentId][$subarray[1]][$groupId] = newBranch($item, $keys, $names, $subarray, 2, $groupId);
         }
 
         if (!isset($tree[$facultyId][$subarray[0]][$departmentId][$subarray[1]][$groupId][$subarray[2]][$studentId])) {
-            $tree[$facultyId][$subarray[0]][$departmentId][$subarray[1]][$groupId][$subarray[2]][$studentId] = array(
-                $keys[3] => $studentId,
-                $names[3] => $item[$names[3]]
+            $tree[$facultyId][$subarray[0]][$departmentId][$subarray[1]][$groupId][$subarray[2]][$studentId] = newBranch($item, $keys, $names, $subarray, 3, $studentId);
+        }
+    }
+
+    function newBranch(array $item,array $keys,array $names,array $subarray,int $index,int $elementId): array {
+        if ($index === 3) {
+            return array(
+                $keys[$index] => $elementId,
+                $names[$index] => $item[$names[$index]]
             );
         }
+
+        return array(
+          $keys[$index] => $elementId,
+          $names[$index] => $item[$names[$index]],
+          $subarray[$index] => array()
+        );
     }
 
     echo json_encode($tree, JSON_UNESCAPED_UNICODE);
