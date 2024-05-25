@@ -1,13 +1,13 @@
 <?php
 
     global $pdo;
-    require_once __DIR__."/../thesaurus/dataBase.php";
+    require_once dirname(__DIR__) . "/thesaurus/dataBase.php";
 
     if (isset($_POST["facultyName"])) {
         $facultyName = $_POST["facultyName"];
         if (preg_match("/^[А-яЁё -]*$/u", $facultyName)) {
 
-            $sql = file_get_contents(__DIR__ . "/../sql/faculty/addFaculty.sql");
+            $sql = file_get_contents(dirname(__DIR__) . "/sql/faculty/addFaculty.sql");
             $addFaculty = $pdo->prepare($sql);
             $addFaculty->execute([
                 "facultyName" => $facultyName

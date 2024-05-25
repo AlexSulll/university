@@ -1,22 +1,22 @@
 <?php
 
     global $pdo;
-    require_once __DIR__."/../thesaurus/dataBase.php";
+    require_once dirname(__DIR__) . "/thesaurus/dataBase.php";
 
     if (isset($_POST["departmentId"], $_POST["newNameDepartment"], $_POST["newFacultyId"])) {
         $departmentId = $_POST["departmentId"];
         $newNameDepartment = $_POST["newNameDepartment"];
         $newFacultyId = $_POST["newFacultyId"];
 
-        $sqlDepartmentId = file_get_contents(__DIR__ . "/../sql/department/getDepartmentId.sql");
+        $sqlDepartmentId = file_get_contents(dirname(__DIR__) . "/sql/department/getDepartmentId.sql");
         $getDepartment = $pdo->prepare($sqlDepartmentId);
         $getDepartment->execute([$departmentId]);
 
-        $sqlDepartmentAll = file_get_contents(__DIR__ . "/../sql/department/getDepartmentAll.sql");
+        $sqlDepartmentAll = file_get_contents(dirname(__DIR__) . "/sql/department/getDepartmentAll.sql");
         $getDepartmentAll = $pdo->query($sqlDepartmentAll);
         $departments = $getDepartmentAll->fetchAll(PDO::FETCH_ASSOC);
 
-        $sqlFacultyId = file_get_contents(__DIR__ . "/../sql/faculty/getFacultyId.sql");
+        $sqlFacultyId = file_get_contents(dirname(__DIR__) . "/sql/faculty/getFacultyId.sql");
         $getFacultyDepartment = $pdo->prepare($sqlFacultyId);
         $getFacultyDepartment->execute([$newFacultyId]);
 
@@ -24,7 +24,7 @@
             if ($getFacultyDepartment->fetch()) {
                 if (!array_search($newNameDepartment, array_column($departments, "name_of_department"))) {
 
-                    $sql = file_get_contents(__DIR__ . "/../sql/department/editDepartment.sql");
+                    $sql = file_get_contents(dirname(__DIR__) . "/sql/department/editDepartment.sql");
                     $editStudent = $pdo->prepare($sql);
                     $editStudent->execute([
                         "newNameDepartment" => $newNameDepartment,

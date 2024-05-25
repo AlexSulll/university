@@ -3,7 +3,7 @@
     header("Content-Type: application/json");
 
     global $pdo;
-    require_once __DIR__."/../thesaurus/dataBase.php";
+    require_once dirname(__DIR__) . "/thesaurus/dataBase.php";
 
     if (isset($_GET["groupId"])) {
         $group = getGroup($_GET["groupId"]);
@@ -17,7 +17,7 @@
     function getGroup(int $groupId): ?string
     {
         global $pdo;
-        $sql = file_get_contents(__DIR__ . "/../sql/group/getGroupId.sql");
+        $sql = file_get_contents(dirname(__DIR__) . "/sql/group/getGroupId.sql");
 
         $getGroup = $pdo->prepare($sql);
         $getGroup->execute([$groupId]);

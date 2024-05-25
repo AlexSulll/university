@@ -3,7 +3,7 @@
     header("Content-Type: application/json");
 
     global $pdo;
-    require_once __DIR__."/../thesaurus/dataBase.php";
+    require_once dirname(__DIR__) . "/thesaurus/dataBase.php";
 
     if (isset($_GET["facultyId"])) {
         $faculty = getFaculty($_GET["facultyId"]);
@@ -17,7 +17,7 @@
     function getFaculty(int $facultyId): ?string
     {
         global $pdo;
-        $sql = file_get_contents(__DIR__ . "/../sql/faculty/getFacultyId.sql");
+        $sql = file_get_contents(dirname(__DIR__) . "/sql/faculty/getFacultyId.sql");
 
         $getFaculty = $pdo->prepare($sql);
         $getFaculty->execute([$facultyId]);

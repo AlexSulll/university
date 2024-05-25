@@ -1,22 +1,22 @@
 <?php
 
     global $pdo;
-    require_once __DIR__."/../thesaurus/dataBase.php";
+    require_once dirname(__DIR__) . "/thesaurus/dataBase.php";
 
     if (isset($_POST["studentId"], $_POST["newNameStudent"], $_POST["newGroupStudentId"])) {
         $studentId = $_POST["studentId"];
         $newNameStudent = $_POST["newNameStudent"];
         $newGroupStudentId = $_POST["newGroupStudentId"];
 
-        $sqlStudentId = file_get_contents(__DIR__ . "/../sql/students/getStudentId.sql");
+        $sqlStudentId = file_get_contents(dirname(__DIR__) . "/sql/students/getStudentId.sql");
         $getStudent = $pdo->prepare($sqlStudentId);
         $getStudent->execute([$studentId]);
 
-        $sqlStudentAll = file_get_contents(__DIR__ . "/../sql/students/getStudentsAll.sql");
+        $sqlStudentAll = file_get_contents(dirname(__DIR__) . "/sql/students/getStudentsAll.sql");
         $getStudentAll = $pdo->query($sqlStudentAll);
         $students = $getStudentAll->fetchAll(PDO::FETCH_ASSOC);
 
-        $sqlGroupStudentId = file_get_contents(__DIR__ . "/../sql/group/getGroupId.sql");
+        $sqlGroupStudentId = file_get_contents(dirname(__DIR__) . "/sql/group/getGroupId.sql");
         $getGroupStudent = $pdo->prepare($sqlGroupStudentId);
         $getGroupStudent->execute([$newGroupStudentId]);
 
@@ -24,7 +24,7 @@
             if ($getGroupStudent->fetch()) {
                 if (!array_search($newNameStudent, array_column($students, "name_of_student"))) {
 
-                    $sql = file_get_contents(__DIR__ . "/../sql/students/editStudent.sql");
+                    $sql = file_get_contents(dirname(__DIR__) . "/sql/students/editStudent.sql");
                     $editStudent = $pdo->prepare($sql);
                     $editStudent->execute([
                         "newNameStudent" => $newNameStudent,

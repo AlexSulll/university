@@ -1,15 +1,15 @@
 <?php
 
     global $pdo;
-    require_once __DIR__."/../thesaurus/dataBase.php";
-    require_once __DIR__."/../department/getDepartment.php";
+    require_once dirname(__DIR__) . "/thesaurus/dataBase.php";
+    require_once dirname(__DIR__) . "/department/getDepartment.php";
 
     if (isset($_POST["groupName"], $_POST["departmentId"])) {
         $groupName = $_POST["groupName"];
         $departmentId = $_POST["departmentId"];
         if (preg_match("/^[А-яЁё0-9 -]*$/u", $groupName) && preg_match("/^[0-9]*$/", $departmentId)) {
             if (getDepartment($departmentId)) {
-                $sql = file_get_contents(__DIR__ . "/../sql/group/addGroup.sql");
+                $sql = file_get_contents(dirname(__DIR__) . "/sql/group/addGroup.sql");
                 $addGroup = $pdo->prepare($sql);
                 $addGroup->execute([
                     "groupName" => $groupName,

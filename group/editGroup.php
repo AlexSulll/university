@@ -1,22 +1,22 @@
 <?php
 
     global $pdo;
-    require_once __DIR__."/../thesaurus/dataBase.php";
+    require_once dirname(__DIR__) . "/thesaurus/dataBase.php";
 
     if (isset($_POST["groupId"], $_POST["newNameGroup"], $_POST["newDepartmentId"])) {
         $groupId = $_POST["groupId"];
         $newNameGroup = $_POST["newNameGroup"];
         $newDepartmentId = $_POST["newDepartmentId"];
 
-        $sqlGroupId = file_get_contents(__DIR__."/../sql/group/getGroupId.sql");
+        $sqlGroupId = file_get_contents(dirname(__DIR__) . "/sql/group/getGroupId.sql");
         $getGroup = $pdo->prepare($sqlGroupId);
         $getGroup->execute([$groupId]);
 
-        $sqlGroupAll = file_get_contents(__DIR__."/../sql/group/getGroupAll.sql");
+        $sqlGroupAll = file_get_contents(dirname(__DIR__) . "/sql/group/getGroupAll.sql");
         $getGroupAll = $pdo->query($sqlGroupAll);
         $groups = $getGroupAll->fetchAll(PDO::FETCH_ASSOC);
 
-        $sqlDepartmentGroupId = file_get_contents(__DIR__."/../sql/department/getDepartmentId.sql");
+        $sqlDepartmentGroupId = file_get_contents(dirname(__DIR__) . "/sql/department/getDepartmentId.sql");
         $getDepartment = $pdo->prepare($sqlDepartmentGroupId);
         $getDepartment->execute([$newDepartmentId]);
 
@@ -24,7 +24,7 @@
             if ($getDepartment->fetch()) {
                 if (!array_search($newNameGroup, array_column($groups, "name_of_group"))) {
 
-                    $sql = file_get_contents(__DIR__ . "/../sql/group/editGroup.sql");
+                    $sql = file_get_contents(dirname(__DIR__) . "/sql/group/editGroup.sql");
                     $editGroup = $pdo->prepare($sql);
                     $editGroup->execute([
                         "newNameGroup" => $newNameGroup,
